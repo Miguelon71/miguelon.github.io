@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashes and Steak - Menú</title>
+    <link rel="stylesheet" href="EstiloRestaurante.css">
+</head>
+
+<body>
+    <header role="banner">
+        <div class="container">
+            <h1 tabindex="0">Ashes And Steak</h1>
+            <p tabindex="0">En Ashes And Steak, llevamos el arte de la parrilla a otro nivel. Disfruta de cortes premium, hamburguesas
+                jugosas y vegetales al fuego, preparados con pasión y el mejor toque ahumado. Cada plato es una experiencia
+                única, llena de sabor y tradición. ¡Ven y vive la esencia de la parrilla con nosotros!🔥</p>
+        </div>
+    </header>
+    <main role="main">
+        <div class="container">
+            <nav class="categories" role="navigation" aria-label="Categorías del menú">
+                <button onclick="scrollToSection('entradas')" aria-label="Ver entradas">Entradas</button>
+                <button onclick="scrollToSection('platos')" aria-label="Ver platos principales">Platos Principales</button>
+                <button onclick="scrollToSection('bebidas')" aria-label="Ver bebidas">Bebidas</button>
+                <button onclick="scrollToSection('postres')" aria-label="Ver postres">Postres</button>
+                <button onclick="scrollToSection('all')" aria-label="Mostrar todo el menú">Mostrar Todo</button>
+            </nav>
+    
+            <section id="menu-section" aria-labelledby="menu-heading">
+                <h1 id="menu-heading" tabindex="0">Menú</h1>
+                <div id="menu" class="menu-container" aria-live="polite">
+                    <!-- Aquí se cargarán dinámicamente los elementos del menú -->
+                </div>
+            </section>
+        </div>
+    
+        <aside class="cart" role="complementary" aria-labelledby="cart-heading">
+            <h2 id="cart-heading" tabindex="0">Carrito</h2>
+            <ul id="cart-items" aria-label="Artículos en el carrito"></ul>
+            <p id="cart-total" tabindex="0">Total: $0</p>
+            <button onclick="clearCart()" aria-label="Vaciar carrito">Vaciar Carrito</button>
+            <button onclick="purchaseCart()" aria-label="Comprar artículos del carrito">Comprar</button>
+        </aside>
+    
+        <div id="purchase-summary" class="purchase-summary" aria-live="assertive" role="alertdialog" aria-modal="true" style="display: none;"></div>
+    
+        <section id="delivery-form-section" class="delivery-form" style="display: none;" aria-labelledby="delivery-form-heading">
+            <h2 id="delivery-form-heading" tabindex="0">Datos para el domicilio</h2>
+            <form id="order-form" role="form">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" required aria-required="true">
+    
+                <label for="address">Dirección:</label>
+                <input type="text" id="address" required aria-required="true">
+    
+                <label for="phone">Teléfono:</label>
+                <input type="tel" id="phone" pattern="[0-9]{7,10}" title="Ingrese un número de teléfono válido (7-10 dígitos)" required aria-required="true">
+    
+                <button type="submit" aria-label="Confirmar pedido">Confirmar Pedido</button>
+            </form>
+        </section>
+    
+        <div id="order-confirmation" class="order-confirmation" aria-live="assertive" role="alertdialog" aria-modal="true" style="display: none;"></div>
+    </main>
+
+    <script src="LogicaJavaScript.js"></script>
+
+    <footer class="footer" role="contentinfo">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h2 tabindex="0">Ashes And Steak</h2>
+                <p tabindex="0">Descubre el sabor auténtico del asado con ingredientes de la más alta calidad.</p>
+            </div>
+            <div class="footer-section">
+                <h3 tabindex="0">📞 Contáctanos:</h3>
+                <ul>
+                    <li tabindex="0">📍 Dirección: Calle 123, Bogotá D.C</li>
+                    <li tabindex="0">📧 Email: Restaurante@ashesandsteak.com</li>
+                    <li tabindex="0">📞 Teléfono: +123 456 789</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 tabindex="0">ℹ️ Información</h3>
+                <ul>
+                    <li><a href="SobreNosotros.html" aria-label="Más sobre nosotros">Sobre Nosotros</a></li>
+                    <li><a href="#menu-section" aria-label="Ir a la sección de menú">Menú</a></li>
+                    <li><a href="politicaPrivacidad.html" aria-label="Lea nuestra política de privacidad">Política de Privacidad</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 tabindex="0">🔗 Síguenos</h3>
+                <div class="social-icons">
+                    <a href="#"><img src="facebook-icon.png" alt="Facebook" class="facebook-icon"></a>
+                    <a href="#"><img src="instagram-icon.png" alt="Instagram" class="instagram-icon"></a>
+                </div>
+            </div>
+        </div>
+        <p class="footer-copy" tabindex="0">© 2025 Ashes And Steak. Todos los derechos reservados.</p>
+    </footer>
+</body>
+
+</html>
+

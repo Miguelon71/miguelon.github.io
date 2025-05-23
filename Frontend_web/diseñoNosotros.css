@@ -1,0 +1,124 @@
+body {
+    /* overflow-y: hidden; */ /* Removed to allow scrolling if content overflows */
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f9c0b8 0%, #f8a5a2 100%), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+    background-blend-mode: multiply;
+    background-size: cover;
+    background-attachment: fixed;
+    color: #333;
+    min-height: 100vh;
+    padding: 20px; /* Consider using rem or em for scalability */
+    padding-top: 80px; /* Consider using rem or em */
+}
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* Consider using rem or em */
+    width: 100%;
+    max-width: 90vw;
+    margin-left: 70px; /* Consider using rem or em, or percentage for responsiveness */
+}
+.card {
+    background: rgba(255, 255, 255, 0.8); /* Fondo blanco translúcido */
+    border-radius: 10px; /* Consider using rem or em */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+    overflow: hidden;
+    width: 100%;
+    max-width: 300px; /* Consider using rem or em */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(5px); /* Efecto de desenfoque detrás del recuadro */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+}
+.card img {
+    display: block; /* Asegura que la imagen se comporte como un bloque */
+    margin: 0 auto; /* Centra la imagen horizontalmente */
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho del contenedor */
+    height: 200px; /* Consider using rem or em, or aspect-ratio */
+    object-fit: cover; /* Recorta la imagen para que se ajuste al contenedor */
+    border-radius: 10px 10px 0 0; /* Mantiene bordes redondeados en la parte superior */
+}
+.card .info {
+    padding: 15px; /* Consider using rem or em */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.card h2 {
+    margin: 10px 0; /* Consider using rem or em */
+    color: #333; /* Texto oscuro para contraste */
+}
+.card p {
+    color: #666; /* Texto gris para párrafos */
+    font-size: 14px; /* Consider using rem or em */
+}
+.back-button {
+    background-color: #e74c3c; /* Rojo brillante para destacar */
+    color: white;
+    border: none;
+    padding: 15px 30px; /* Consider using rem or em */
+    border-radius: 8px; /* Consider using rem or em */
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 18px; /* Consider using rem or em */
+    font-weight: bold; /* Hace el texto más visible */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para resaltar */
+}
+
+.back-button:hover,
+.back-button:focus {
+    background-color: #c0392b; /* Rojo más oscuro al pasar el mouse */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+    transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
+    outline: 2px solid #a03023; /* Focus indicator */
+    outline-offset: 2px;
+}
+
+/* Para pantallas grandes (escritorio) */
+@media (min-width: 1024px) {
+    .gallery {
+        max-width: 80vw;
+    }
+}
+
+/* Para tablets y pantallas medianas */
+@media (max-width: 1024px) {
+    .gallery {
+        max-width: 95vw;
+    }
+
+    .card {
+        max-width: 250px;
+    }
+}
+
+/* Para móviles en orientación vertical */
+@media (max-width: 768px) {
+    .gallery {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        max-width: 90%;
+    }
+}
+
+/* Para móviles pequeños */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .gallery {
+        gap: 10px;
+    }
+
+    .card {
+        max-width: 100%;
+    }
+}

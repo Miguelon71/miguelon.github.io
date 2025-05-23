@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>Ashes and Steak - Inicio de Sesión</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="login_stylesheet.css" />
+    <script src="javascript/login_script.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Bienvenido</h1>
+      <button class="hamburger" aria-label="Abrir menú de navegación">☰</button>
+    </header>
+
+    <main>
+      <div class="login-container">
+        <img id="logo" src="/images/logo.webp" alt="Logo POKE" height="80px" />
+        <h1>¡Bienvenido!</h1>
+        <form id="login_form">
+          <label for="username">Usuario</label>
+          <input
+            id="username"
+            type="email"
+            placeholder="Ingresa tu usuario"
+            required
+          />
+
+          <label for="password">Contraseña</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Ingresa tu contraseña"
+            required
+          />
+
+          <button id="login_button" type="submit">Ingresar</button>
+        </form>
+        <div id="return_menu_section">
+          <button
+            id="menu_button"
+            type="button"
+            onclick="location.href='index.html'"
+          >
+            Regresar al Menú Principal
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-container">
+        <div class="column" id="text-column">
+          <p>Foodie S.A.S</p>
+          <p>Endeavor Company</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

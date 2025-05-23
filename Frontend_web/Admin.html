@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+  <!-- El tipo de documento se define como HTML5 -->
+  <head>
+    <!-- Se establece el idioma principal del contenido en inglés -->
+    <meta charset="UTF-8" />
+    <!-- Configuración para que el diseño sea adaptable en dispositivos móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Título de la página web que se muestra en la pestaña del navegador -->
+    <title>POKE Admin - Gestión de Pedidos</title>
+    <!-- Enlace al archivo CSS para los estilos de la página -->
+    <link rel="stylesheet" href="Administracion.css" />
+    <!-- Inclusión de un archivo JavaScript para funcionalidades, diferido para cargar después del HTML -->
+    <script src="javascript/admin.js" defer></script>
+  </head>
+  <body>
+    <!-- Barra lateral que contiene el menú de navegación -->
+    <aside class="sidebar">
+      <!-- Sección del logo con una imagen y un título -->
+      <div class="logo">
+        <img src="/images/logo.webp" alt="Logo POKE" />
+        <h2>POKE Admin</h2>
+      </div>
+      <!-- Menú de navegación con enlaces a diferentes secciones -->
+      <nav>
+        <ul>
+          <li><a href="#">Pedidos</a></li>
+          <li><a href="products.html">Productos</a></li>
+        </ul>
+      </nav>
+      <!-- Botón para cerrar sesión que redirige al usuario a 'index.html' -->
+      <div class="logout">
+        <button
+          id="menu_button"
+          type="button"
+          onclick="location.href='index.html'"
+        >
+          Cerrar Sesión
+        </button>
+      </div>
+    </aside>
+    <main>
+      <header>
+        <h1>Gestión de Pedidos</h1>
+      </header>
+      <section class="filter">
+        <label for="filter-status">Filtrar por estado:</label>
+        <select id="filter-status">
+          <option value="todos">Todos</option>
+          <option value="pendientes">Pendiente</option>
+          <option value="atendidos">Atendido</option>
+        </select>
+      </section>
+      <section class="orders-table">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Nombre del Cliente</th>
+              <th scope="col">Teléfono</th>
+              <th scope="col">Dirección</th>
+              <th scope="col">Productos</th>
+              <th scope="col">Total</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Orders will be populated here by JavaScript -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>
