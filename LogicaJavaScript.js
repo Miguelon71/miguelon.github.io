@@ -1,5 +1,5 @@
 let cart = [];
-const API_BASE_URL = "https://tareaweb1.onrender.com/api"; // Assuming Django runs on port 8000
+const API_BASE_URL = "https://tareaweb1.onrender.com/api";
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchMenu();
