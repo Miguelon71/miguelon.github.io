@@ -10,15 +10,30 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchOrders();
     
     const filterStatus = document.getElementById("filter-status");
+    const filterClient = document.getElementById("filter-client");
+    const logoutButton = document.getElementById("logout_button");
+
     if (filterStatus) {
-        filterStatus.addEventListener("change", () => fetchOrders(filterStatus.value));
+        filterStatus.addEventListener("change", () => fetchOrders(filterStatus.value, filterClient ? filterClient.value : ''));
+    }
+    if (filterClient) {
+        filterClient.addEventListener("input", () => fetchOrders(filterStatus ? filterStatus.value : 'todos', filterClient.value));
+    }
+
+    if (logoutButton) {
+        logoutButton.addEventListener("click", logout);
     }
 
     // Poll for new orders every 30 seconds
-    setInterval(() => fetchOrders(filterStatus ? filterStatus.value : 'todos'), 30000);
+    setInterval(() => fetchOrders(filterStatus ? filterStatus.value : 'todos', filterClient ? filterClient.value : ''), 30000);
 });
 
-async function fetchOrders(statusFilter = 'todos') {
+function logout() {
+    localStorage.removeItem('authToken');
+    window.location.href = 'index.html'; // Or Login.html if preferred after logout
+}
+
+async function fetchOrders(statusFilter = 'todos', clientFilter = '') {
     const token = localStorage.getItem('authToken');
     if (!token) {
         window.location.href = 'Login.html';
@@ -40,7 +55,7 @@ async function fetchOrders(statusFilter = 'todos') {
             throw new Error(`Error HTTP: ${response.status}`);
         }
         const orders = await response.json();
-        renderOrders(orders, statusFilter);
+        renderOrders(orders, statusFilter, clientFilter);
     } catch (error) {
         console.error("Error al obtener las órdenes:", error);
         const tbody = document.getElementById("orders-tbody");
@@ -50,7 +65,7 @@ async function fetchOrders(statusFilter = 'todos') {
     }
 }
 
-function renderOrders(orders, statusFilter = 'todos') {
+function renderOrders(orders, statusFilter = 'todos', clientFilter = '') {
     const tbody = document.getElementById("orders-tbody");
     if (!tbody) {
         console.error("Elemento tbody con id 'orders-tbody' no encontrado.");
@@ -58,12 +73,26 @@ function renderOrders(orders, statusFilter = 'todos') {
     }
     tbody.innerHTML = ""; // Clear existing rows
 
+    const normalizedClientFilter = clientFilter.trim().toLowerCase();
+
     const filteredOrders = orders.filter(order => {
-        if (statusFilter === 'todos') return true;
-        // Assuming 'pendientes' maps to 'Pendiente' and 'atendidos' to 'Atendido'
-        if (statusFilter === 'pendientes') return order.state.toLowerCase() === 'pendiente';
-        if (statusFilter === 'atendidos') return order.state.toLowerCase() === 'atendido';
-        return true; // Fallback for unknown filters
+        let statusMatch = false;
+        if (statusFilter === 'todos') {
+            statusMatch = true;
+        } else if (statusFilter === 'pendientes') {
+            statusMatch = order.state.toLowerCase() === 'pendiente';
+        } else if (statusFilter === 'atendidos') {
+            statusMatch = order.state.toLowerCase() === 'atendido';
+        } else {
+            statusMatch = true; // Fallback for unknown status filters
+        }
+
+        let clientMatch = true;
+        if (normalizedClientFilter) {
+            clientMatch = order.name.toLowerCase().includes(normalizedClientFilter);
+        }
+
+        return statusMatch && clientMatch;
     });
 
     if (filteredOrders.length === 0) {
@@ -74,7 +103,10 @@ function renderOrders(orders, statusFilter = 'todos') {
     filteredOrders.forEach(order => {
         const tr = document.createElement("tr");
 
-        const productsList = order.products.map(op => `${op.product.name} (x${op.quantity})`).join(', ');
+        const productsList = order.products.map(op => {
+            const productName = op.product ? op.product.name : 'Producto Desconocido';
+            return `${productName} (x${op.quantity})`;
+        }).join(', ');
 
         tr.innerHTML = `
             <td>${order.name}</td>
@@ -139,7 +171,8 @@ async function updateOrderStatus(orderId, newStatus) {
         
         // Refresh the orders list to show the change
         const filterStatusEl = document.getElementById("filter-status");
-        fetchOrders(filterStatusEl ? filterStatusEl.value : 'todos');
+        const filterClientEl = document.getElementById("filter-client");
+        fetchOrders(filterStatusEl ? filterStatusEl.value : 'todos', filterClientEl ? filterClientEl.value : '');
 
     } catch (error) {
         console.error("Error al actualizar el estado de la orden:", error);

@@ -31,9 +31,8 @@
       <!-- Botón para cerrar sesión que redirige al usuario a 'index.html' -->
       <div class="logout">
         <button
-          id="menu_button"
+          id="logout_button" 
           type="button"
-          onclick="location.href='index.html'"
         >
           Cerrar Sesión
         </button>
@@ -50,6 +49,8 @@
           <option value="pendientes">Pendiente</option>
           <option value="atendidos">Atendido</option>
         </select>
+        <label for="filter-client">Filtrar por cliente:</label>
+        <input type="text" id="filter-client" placeholder="Nombre del cliente">
       </section>
       <section class="orders-table">
         <table>

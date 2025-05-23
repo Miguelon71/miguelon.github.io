@@ -35,7 +35,7 @@ function renderMenu(items) {
     const categories = {};
 
     items.forEach((item) => {
-        const categoryKey = item.category || 'General'; 
+        const categoryKey = item.category || 'General'; // Use item.category (formerly plato)
         if (!categories[categoryKey]) {
             categories[categoryKey] = [];
         }
@@ -56,21 +56,21 @@ function renderMenu(items) {
             card.classList.add("card", "menu-item-container");
 
             const img = document.createElement("img");
-            img.src = item.image || "placeholder.jpg"; // Use item.image
-            img.alt = item.name; // Use item.name
+            img.src = item.image || "placeholder.jpg"; // Use item.image (formerly imagen)
+            img.alt = item.name; // Use item.name (formerly nombre)
             img.classList.add("menu-image");
 
-            const nameEl = document.createElement("h2"); // Renamed to avoid conflict with item.name
+            const nameEl = document.createElement("h2"); 
             nameEl.className = "menu-name";
-            nameEl.textContent = item.name; // Use item.name
+            nameEl.textContent = item.name; // Use item.name (formerly nombre)
 
             const desc = document.createElement("p");
             desc.className = "overlay-text";
-            desc.textContent = item.description; // Use item.description
+            desc.textContent = item.description; // Use item.description (formerly descripcion)
 
             const price = document.createElement("p");
             price.className = "menu-price";
-            price.textContent = `$${parseFloat(item.price).toFixed(2)}`; // Use item.price
+            price.textContent = `$${parseFloat(item.price).toFixed(2)}`; // Use item.price (formerly precio)
 
             const btn = document.createElement("button");
             btn.textContent = "Agregar al Carrito";
@@ -92,7 +92,17 @@ function renderMenu(items) {
 
 // Funciones del carrito de compras
 function addToCart(item) {
-    cart.push({ id: item.id, name: item.name, price: parseFloat(item.price) });
+    const existingItem = cart.find(cartItem => cartItem.id === item.id);
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        cart.push({ 
+            id: item.id, 
+            name: item.name, 
+            price: parseFloat(item.price), 
+            quantity: 1 
+        });
+    }
     updateCart();
 }
 
@@ -104,16 +114,52 @@ function updateCart() {
 
     cart.forEach((item, index) => {
         const li = document.createElement("li");
-        li.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+        
+        const itemText = document.createElement("span");
+        itemText.textContent = `${item.name} - $${item.price.toFixed(2)} x ${item.quantity} = $${(item.price * item.quantity).toFixed(2)}`;
+        li.appendChild(itemText);
+
+        const decreaseBtn = document.createElement("button");
+        decreaseBtn.textContent = "-";
+        decreaseBtn.onclick = () => decreaseQuantity(index);
+        decreaseBtn.classList.add("quantity-btn");
+        li.appendChild(decreaseBtn);
+
+        const increaseBtn = document.createElement("button");
+        increaseBtn.textContent = "+";
+        increaseBtn.onclick = () => increaseQuantity(index);
+        increaseBtn.classList.add("quantity-btn");
+        li.appendChild(increaseBtn);
+
         const removeBtn = document.createElement("button");
         removeBtn.textContent = "X";
         removeBtn.onclick = () => removeFromCart(index);
+        removeBtn.classList.add("remove-btn");
         li.appendChild(removeBtn);
+        
         cartItems.appendChild(li);
-        total += item.price;
+        total += item.price * item.quantity;
     });
 
     cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+}
+
+function increaseQuantity(index) {
+    if (cart[index]) {
+        cart[index].quantity++;
+        updateCart();
+    }
+}
+
+function decreaseQuantity(index) {
+    if (cart[index]) {
+        cart[index].quantity--;
+        if (cart[index].quantity <= 0) {
+            removeFromCart(index);
+        } else {
+            updateCart();
+        }
+    }
 }
 
 function removeFromCart(index) {
@@ -137,8 +183,8 @@ function purchaseCart() {
     let total = 0;
 
     cart.forEach((item) => {
-        summaryHTML += `<li>${item.name} - $${item.price.toFixed(2)}</li>`;
-        total += item.price;
+        summaryHTML += `<li>${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toFixed(2)}</li>`;
+        total += item.price * item.quantity;
     });
 
     summaryHTML += `</ul><p><strong>Total: $${total.toFixed(2)}</strong></p>`;
@@ -163,11 +209,11 @@ async function submitOrder(event) {
     }
 
     const orderProducts = cart.map(item => ({
-        id: item.id, // Django OrderProduct expects product ID
-        quantity: 1 // Default quantity
+        id: item.id, 
+        quantity: item.quantity // Use quantity from cart
     }));
     
-    const calculatedTotal = cart.reduce((acc, item) => acc + item.price, 0);
+    const calculatedTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
     const orderData = {
         name: name,
